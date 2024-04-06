@@ -1,13 +1,9 @@
 package com.example.beinus.story;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,4 +20,5 @@ public class Story {
     private String content;
     private Long likes;
 
+    private String userId;
 }

@@ -1,7 +1,7 @@
 package com.example.beinus.story;
 
+import com.example.beinus.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,16 +11,16 @@ import java.util.List;
 public class StoryService {
 
     @Autowired
-    private StoryRepository repository;
+    private StoryRepository storyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Story> getAllStories() {
-        List<Story> stories = new ArrayList<>();
-        Streamable.of(repository.findAll())
-                .forEach(stories::add);
-        return stories;
+        return new ArrayList<>(storyRepository.findAll());
     }
 
     public Story saveStory(Story story) {
-        return repository.save(story);
+        return storyRepository.save(story);
     }
 }
