@@ -1,11 +1,14 @@
 package com.example.beinus.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path = "/api/user")
 public class UserController {
 
@@ -18,8 +21,13 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable String userId) {
-        return service.getUser(userId);
+    public ResponseEntity<User> getUser(@PathVariable String userId) {
+        User user = service.getUser(userId);
+        if(user != null){
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/save")
