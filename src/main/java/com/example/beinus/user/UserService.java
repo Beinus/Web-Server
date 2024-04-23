@@ -41,7 +41,7 @@ public class UserService {
             User savedUser = savedUserOptional.get();
 
             savedUser.getStories().forEach(story -> {
-                story.setUserName(user.getUserName());
+                story.setUserName(user.getUsername());
                 storyRepository.save(story);
             });
             return userRepository.save(user);
