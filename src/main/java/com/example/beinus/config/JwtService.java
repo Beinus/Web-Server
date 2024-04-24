@@ -26,7 +26,7 @@ public class JwtService {
     // Generate a new Token with 'extraClaims' and 'userDetails'.
     public String generateToken(
             Map<String, Object> extraClaims,    // It's for additional custom claims, so it's not essential.
-            UserDetails userDetails
+            UserDetails userDetails             // This will be matched with the new token.
     ) {
         return Jwts.builder()
                 .claims(extraClaims)
@@ -34,12 +34,30 @@ public class JwtService {
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))  // 24 hours
                 .signWith(getSignInKey())
-                .compact();     // Generate and return the token
+                .compact();     // Generate and return the token (use at the end)
     }
 
     // Generate a new Token only with 'userDetails'.
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
+    }
+
+    // Check if the token is valid.
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        // return true if the username is equal to the one in the token and if the token is not expired.
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    // Check if the token is expired.
+    private boolean isTokenExpired(String token) {
+        // return true if the expiration date of the token is before the new Date().
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Get the expiration date of the token.
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
     // Extract the Username from the token.

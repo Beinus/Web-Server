@@ -6,6 +6,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,6 +22,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -44,5 +50,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Extract the userName from JWT token
         userName = jwtService.extractUsername(jwt);     // Extract the Username by parsing the jwt token.
+
+        // if the userName exists and the user is not yet authenticated (if the user is not connected yet)
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            // Get the userDetails from the database
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
+
+            // if the username in jwt token and in userDetails are the same and the token is not expired
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                // Set a new authenticationToken
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,   // When a user created, it doesn't have credentials.
+                        userDetails.getAuthorities()
+                );
+
+                // Set details in the authenticationToken
+                authenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)  // request = HTTP request
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+            filterChain.doFilter(request, response);    // Always need to pass to the next filters to be executed
+        }
     }
 }
