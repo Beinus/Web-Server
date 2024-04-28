@@ -32,8 +32,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Authorize all the requests within this list but any other requests should be authenticated.
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**")
-                        .permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 // Spring will create a new session for each request.
