@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -34,17 +33,35 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(User user) {
-        Optional<User> savedUserOptional = userRepository.findById(user.getUserId());
+    public User updateUser(String userId, User user) {
+        Optional<User> savedUserOptional = userRepository.findById(userId);
 
         if (savedUserOptional.isPresent()) {
             User savedUser = savedUserOptional.get();
+
+            // Update the fields of the savedUser with the new user data
+            if (user.getUsername() != null) {
+                savedUser.setUserName(user.getUsername());
+            }
+            if (user.getUserPassword() != null) {
+                savedUser.setUserPassword(user.getUserPassword());
+            }
+            if (user.getUserImage() != null) {
+                savedUser.setUserImage(user.getUserImage());
+            }
+            if (user.getUserColor() != null) {
+                savedUser.setUserColor(user.getUserColor());
+            }
+            if (user.getUserIntro() != null) {
+                savedUser.setUserIntro(user.getUserIntro());
+            }
 
             savedUser.getStories().forEach(story -> {
                 story.setUserName(user.getUsername());
                 storyRepository.save(story);
             });
-            return userRepository.save(user);
+
+            return userRepository.save(savedUser);
         } else {
             return null;
         }
