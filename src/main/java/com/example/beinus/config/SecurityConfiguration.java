@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/stories/**").permitAll()
+                        .requestMatchers("/api/likes/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 // Spring will create a new session for each request.
