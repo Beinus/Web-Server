@@ -1,7 +1,9 @@
-package com.example.beinus.user;
+package com.example.beinus.service;
 
-import com.example.beinus.story.Story;
-import com.example.beinus.story.StoryRepository;
+import com.example.beinus.model.Story;
+import com.example.beinus.model.User;
+import com.example.beinus.repository.StoryRepository;
+import com.example.beinus.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

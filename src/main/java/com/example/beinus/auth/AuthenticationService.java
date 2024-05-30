@@ -1,8 +1,8 @@
 package com.example.beinus.auth;
 
 import com.example.beinus.config.JwtService;
-import com.example.beinus.user.User;
-import com.example.beinus.user.UserRepository;
+import com.example.beinus.model.User;
+import com.example.beinus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

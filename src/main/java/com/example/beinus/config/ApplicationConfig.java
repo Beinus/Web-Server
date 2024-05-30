@@ -1,6 +1,6 @@
 package com.example.beinus.config;
 
-import com.example.beinus.user.UserRepository;
+import com.example.beinus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

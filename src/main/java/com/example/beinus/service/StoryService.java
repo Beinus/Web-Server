@@ -1,8 +1,10 @@
-package com.example.beinus.story;
+package com.example.beinus.service;
 
-import com.example.beinus.likedStories.LikedStories;
-import com.example.beinus.likedStories.LikedStoriesRepository;
-import com.example.beinus.user.UserRepository;
+import com.example.beinus.model.LikedStories;
+import com.example.beinus.model.Story;
+import com.example.beinus.repository.LikedStoriesRepository;
+import com.example.beinus.repository.StoryRepository;
+import com.example.beinus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

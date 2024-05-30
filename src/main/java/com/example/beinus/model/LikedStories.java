@@ -1,4 +1,4 @@
-package com.example.beinus.likedStories;
+package com.example.beinus.model;
 
 import jakarta.persistence.*;
 import lombok.*;
