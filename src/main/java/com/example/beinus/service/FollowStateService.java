@@ -19,10 +19,18 @@ public class FollowStateService {
     }
 
     public FollowState save(FollowState followState) {
-        return repository.save(followState);
+        Optional<FollowState> existingFollowState = repository.findByUser1AndUser2(followState.getUser1(), followState.getUser2());
+        if (existingFollowState.isPresent()) {
+            FollowState stateToUpdate = existingFollowState.get();
+            stateToUpdate.setState(followState.getState());
+            return repository.save(stateToUpdate);
+        } else {
+            return repository.save(followState);
+        }
     }
 
-    public void delete(FollowState followState) {
-        repository.delete(followState);
+    public void delete(String user1, String user2) {
+        Optional<FollowState> optionalFollowState = repository.findByUser1AndUser2(user1, user2);
+        optionalFollowState.ifPresent(repository::delete);
     }
 }

@@ -27,6 +27,6 @@ public class FollowStateController {
 
     @DeleteMapping("/delete")
     public void delete(@RequestBody FollowState followState) {
-        service.delete(followState);
+        service.delete(followState.getUser1(), followState.getUser2());
     }
 }
