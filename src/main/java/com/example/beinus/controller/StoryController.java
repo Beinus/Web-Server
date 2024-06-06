@@ -1,6 +1,8 @@
-package com.example.beinus.story;
+package com.example.beinus.controller;
 
-import com.example.beinus.user.UserService;
+import com.example.beinus.model.Story;
+import com.example.beinus.service.StoryService;
+import com.example.beinus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

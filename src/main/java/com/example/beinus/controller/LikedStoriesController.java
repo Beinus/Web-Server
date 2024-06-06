@@ -1,5 +1,7 @@
-package com.example.beinus.likedStories;
+package com.example.beinus.controller;
 
+import com.example.beinus.model.LikedStories;
+import com.example.beinus.service.LikedStoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
